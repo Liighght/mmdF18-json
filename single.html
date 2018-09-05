@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="da">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Babushka</title>
+    <link rel="stylesheet" href="">
+
+    <style>
+    </style>
+</head>
+
+<body>
+
+    <section id="data-container">
+        <article>
+            <!-- <img class="data-billede" src="" alt=""> -->
+            <h2 class="data-navn"></h2>
+            <p>Kort beskrivelse: <span class="data-langbeskrivelse"></span></p>
+            <p>Pris: <span class="data-pris"></span></p>
+        </article>
+    </section>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", hentJson);
+
+        async function hentJson() {
+
+            //hent json fil
+
+            let jsonFil = await fetch("menu.json");
+            let menu = await jsonFil.json();
+
+            console.log(menu);
+
+            let display = document.querySelector("#data-container");
+
+            menu.forEach(menuItem => {
+
+                if (menuItem.id == id) {
+
+                    display.querySelector(".data-billede").src = " " + menu.billede;
+                    display.querySelector(".data-billede").alt = "Foto af " + menu.billede;
+                    display.querySelector(".data-navn").textContent = menu.navn;
+                    display.querySelector(".data-langbeskrivelse").textContent = menu.langbeskrivelse;
+                    display.querySelector(".data-pris").textContent = menu.pris;
+
+                }
+
+            });
+        }
+    </script>
+
+</body>
+
+</html>

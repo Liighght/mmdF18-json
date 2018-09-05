@@ -8,16 +8,57 @@
     <link rel="stylesheet" href="">
 
     <style>
-
-
     </style>
 </head>
 
 <body>
-    <script src="">
+
+    <section id="data-container"></section>
+
+    <template id="data-template">
+      <article>
+          <!-- <img class="data-billede" src="" alt=""> -->
+          <h2 class="data-navn"></h2>
+          <p>Kort beskrivelse: <span class="data-kortbeskrivelse"></span></p>
+          <p>Pris: <span class="data-pris"></span></p>
+
+     </article>
+   </template>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", hentJson);
+
+        async function hentJson() {
+
+            let myTemplate = document.querySelector("#data-template");
+            let modtager = document.querySelector("#data-container");
+
+            //hent json fil
+
+            let jsonFil = await fetch("menu.json");
+            let menu = await jsonFil.json();
+
+            console.log(menu);
+
+            menu.forEach(function(menuItem) {
+
+                let klon = myTemplate.cloneNode(true).content;
 
 
+                klon.querySelector(".data-billede").addEventListener("click", () => {
+                    window.location.href = "single.html?id=" + menu.id;
+                });
+
+                klon.querySelector(".data-navn").textContent = menu.navn;
+                klon.querySelector(".data-kortbeskrivelse").textContent = menu.kortbeskrivelse;
+                klon.querySelector(".data-pris").textContent = menu.pris;
+
+                modtager.appendChild(klon);
+
+            })
+        }
     </script>
+
 </body>
 
 </html>
