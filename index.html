@@ -90,10 +90,14 @@
             visRetter();
         }
 
+
+        //eventlisteners for knap + tilhørende anonym funktion
         document.querySelectorAll(".menu-item").forEach(knap => {
             knap.addEventListener("click", filtrering)
         });
 
+
+        //kan ikke gennemskue hvorfor filtreringen ikke virker
         function filtrering() {
             dest.textContent = "";
             retFilter = this.getAttribute("data-kategori");
