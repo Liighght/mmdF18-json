@@ -7,20 +7,23 @@
     <title>Babushka</title>
     <style>
         body {
-            background-color: wheat;
+            background-color: #634832;
         }
 
         nav {
             text-align: center;
+            padding-bottom: 10px;
         }
 
-        article {
+        .retter {
             padding: 1em;
-            background-color: antiquewhite;
+            border-radius: 10px;
+            background-image: linear-gradient(#dbc1ac, #967259);
         }
 
         .data-container article img {
             width: 100%;
+            border-radius: 10px;
         }
 
         .data-container {
@@ -75,7 +78,7 @@
             <img src="" alt="">
             <h2></h2><br>
             <div class="data-kortbeskrivelse"></div><br>
-            Pris: <div class="data-pris"></div><br>
+            <b>Pris:</b> <div class="data-pris"></div><br>
         </article>
     </template>
 
@@ -115,7 +118,7 @@
                         window.location.href = "single.html?id=" + ret.id;
                     });
                     klon.querySelector(".data-kortbeskrivelse").textContent = ret.kortbeskrivelse;
-                    klon.querySelector(".data-pris").textContent = ret.pris;
+                    klon.querySelector(".data-pris").textContent = ret.pris + ",-";
                     //placer klon i DOM
                     dest.appendChild(klon);
                 }

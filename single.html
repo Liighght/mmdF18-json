@@ -6,33 +6,29 @@
     <title>Babushka</title>
     <style>
         body {
-            background-color: wheat;
+            background-color: #634832;
         }
 
         nav {
             text-align: center;
         }
 
-        article {
+        .retter {
             padding: 1em;
-            background-color: antiquewhite;
+            border-radius: 10px;
+            background-image: linear-gradient(#dbc1ac, #967259);
         }
 
         .data-container article img {
             width: 100%;
+            border-radius: 10px;
         }
 
         .data-container {
             margin: 0 auto;
-            display: grid;
-        }
-
-        @media screen and (min-width:500px) {
-            .data-container {
-                padding-left: 10%;
-                padding-right: 10%;
-                grid-gap: 5px;
-            }
+            padding-left: 10px;
+            padding-right: 10px;
+            padding-top: 10px;
         }
     </style>
 </head>
@@ -44,10 +40,13 @@
         <section class="data-container">
             <article class="retter">
                 <img src="" alt="">
-                <h2></h2><br> Kategori:
-                <div class="data-kategori"></div><br> Oprindelse:
+                <h2></h2><br>
+                <b>Kategori:</b>
+                <div class="data-kategori"></div><br>
+                <b>Oprindelse:</b>
                 <div class="data-oprindelsesregion"></div><br>
-                <div class="data-langbeskrivelse"></div><br> Pris:
+                <div class="data-langbeskrivelse"></div><br>
+                <b>Pris:</b>
                 <div class="data-pris"></div><br>
             </article>
         </section>
@@ -81,7 +80,7 @@
                     dest.querySelector(".data-kategori").textContent = ret.kategori;
                     dest.querySelector(".data-oprindelsesregion").textContent = ret.oprindelsesregion;
                     dest.querySelector(".data-langbeskrivelse").textContent = ret.langbeskrivelse;
-                    dest.querySelector(".data-pris").textContent = ret.pris;
+                    dest.querySelector(".data-pris").textContent = ret.pris + ",-";
                     //placer klon i DOM
 
                 }
