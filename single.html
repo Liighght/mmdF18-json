@@ -2,58 +2,94 @@
 <html lang="da">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
     <title>Babushka</title>
-    <link rel="stylesheet" href="">
-
     <style>
+        body {
+            background-color: wheat;
+        }
+
+        nav {
+            text-align: center;
+        }
+
+        article {
+            padding: 1em;
+            background-color: antiquewhite;
+        }
+
+        .data-container article img {
+            width: 100%;
+        }
+
+        .data-container {
+            margin: 0 auto;
+            display: grid;
+        }
+
+        @media screen and (min-width:500px) {
+            .data-container {
+                padding-left: 10%;
+                padding-right: 10%;
+                grid-gap: 5px;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <section id="data-container">
-        <article>
-            <!-- <img class="data-billede" src="" alt=""> -->
-            <h2 class="data-navn"></h2>
-            <p>Kort beskrivelse: <span class="data-langbeskrivelse"></span></p>
-            <p>Pris: <span class="data-pris"></span></p>
-        </article>
-    </section>
 
+    <main class="container">
+        <section class="data-container">
+            <article class="retten">
+                <img src="" alt="">
+                <h2></h2><br> Kategori:
+                <div class="data-kategori"></div><br> Oprindelse:
+                <div class="data-oprindelsesregion"></div><br>
+                <div class="data-langbeskrivelse"></div><br> Pris:
+                <div class="data-pris"></div><br>
+            </article>
+        </section>
+    </main>
 
 
     <script>
+        let urlParams = new URLSearchParams(window.location.search);
+        let id = urlParams.get("id");
+        console.log(id)
+        let dest = document.querySelector(".data-container");
+        let retten;
         document.addEventListener("DOMContentLoaded", hentJson);
 
         async function hentJson() {
+            let myJson = await fetch("menu.json");
+            retten = await myJson.json();
+            visRet();
+        }
 
-            //hent json fil
+        function visRet() {
+            let dest = document.querySelector(".data-container");
 
-            let jsonFil = await fetch("menu.json");
-            let menu = await jsonFil.json();
+            //løb personlisten igennem og lav en klon
+            retten.forEach(ret => {
+                if (ret.id == id) {
 
-            console.log(menu);
-
-            let display = document.querySelector("#data-container");
-
-            menu.forEach(menuItem => {
-
-                if (menuItem.id == id) {
-
-                    display.querySelector(".data-billede").src = " " + menu.billede;
-                    display.querySelector(".data-billede").alt = "Foto af " + menu.billede;
-                    display.querySelector(".data-navn").textContent = menu.navn;
-                    display.querySelector(".data-langbeskrivelse").textContent = menu.langbeskrivelse;
-                    display.querySelector(".data-pris").textContent = menu.pris;
+                    //indsæt data i klonen
+                    dest.querySelector("h2").textContent = ret.navn;
+                    dest.querySelector("img").src = ret.billede;
+                    dest.querySelector(".data-kategori").textContent = ret.kategori;
+                    dest.querySelector(".data-oprindelsesregion").textContent = ret.oprindelsesregion;
+                    dest.querySelector(".data-langbeskrivelse").textContent = ret.langbeskrivelse;
+                    dest.querySelector(".data-pris").textContent = ret.pris;
+                    //placer klon i DOM
 
                 }
-
             });
         }
     </script>
-
 </body>
 
 </html>
+
+

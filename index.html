@@ -1,64 +1,125 @@
 <!DOCTYPE html>
 <html lang="da">
-
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Babushka</title>
-    <link rel="stylesheet" href="">
 
+    <meta charset="UTF-8">
+    <title>Babushka</title>
     <style>
+        body {
+            background-color: wheat;
+        }
+
+        nav {
+            text-align: center;
+        }
+
+        article {
+            padding: 1em;
+            background-color: antiquewhite;
+        }
+
+        .data-container article img {
+            width: 100%;
+        }
+
+        .data-container {
+            margin: 0 auto;
+            display: grid;
+            grid-gap: 5px;
+        }
+
+        @media screen and (min-width:500px) {
+            .data-container {
+                padding-left: 25px;
+                padding-right: 25px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media screen and (min-width:800px) {
+            .data-container {
+                padding-left: 25px;
+                padding-right: 25px;
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media screen and (min-width:1200px) {
+            .data-container {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <section id="data-container"></section>
+    <header>
+        <nav>
+            <button class="menu-item" data-kategori="alle">Hele menuen</button>
+            <button class="menu-item" data-kategori="forretter">Forretter</button>
+            <button class="menu-item" data-kategori="hovedretter">Hovedretter</button>
+            <button class="menu-item" data-kategori="desserter">Desserter</button>
+            <button class="menu-item" data-kategori="drikkevarer">Drikkevarer</button>
+            <button class="menu-item" data-kategori="sideorders">Sideorders</button>
+        </nav>
+    </header>
 
-    <template id="data-template">
-      <article>
-          <!-- <img class="data-billede" src="" alt=""> -->
-          <h2 class="data-navn"></h2>
-          <p>Kort beskrivelse: <span class="data-kortbeskrivelse"></span></p>
-          <p>Pris: <span class="data-pris"></span></p>
+    <main class="container">
+        <section class="data-container"></section>
+    </main>
 
-     </article>
-   </template>
+    <template class="data-template">
+        <article class="retter">
+            <img src="" alt="">
+            <h2></h2><br>
+            <div class="data-kortbeskrivelse"></div><br>
+            Pris: <div class="data-pris"></div><br>
+        </article>
+    </template>
 
     <script>
+        let dest = document.querySelector(".data-container");
+        let retter;
+        let retFilter = "alle";
         document.addEventListener("DOMContentLoaded", hentJson);
 
         async function hentJson() {
+            let myJson = await fetch("menu.json");
+            retter = await myJson.json();
+            visRetter();
+        }
 
-            let myTemplate = document.querySelector("#data-template");
-            let modtager = document.querySelector("#data-container");
+        document.querySelectorAll(".menu-item").forEach(knap => {
+            knap.addEventListener("click", filtrering)
+        });
 
-            //hent json fil
+        function filtrering() {
+            dest.textContent = "";
+            retFilter = this.getAttribute("data-kategori");
+            visRetter();
+        }
 
-            let jsonFil = await fetch("menu.json");
-            let menu = await jsonFil.json();
-
-            console.log(menu);
-
-            menu.forEach(function(menuItem) {
-
-                let klon = myTemplate.cloneNode(true).content;
-
-
-                klon.querySelector(".data-billede").addEventListener("click", () => {
-                    window.location.href = "single.html?id=" + menu.id;
-                });
-
-                klon.querySelector(".data-navn").textContent = menu.navn;
-                klon.querySelector(".data-kortbeskrivelse").textContent = menu.kortbeskrivelse;
-                klon.querySelector(".data-pris").textContent = menu.pris;
-
-                modtager.appendChild(klon);
-
+        function visRetter() {
+            let dest = document.querySelector(".data-container"),
+                temp = document.querySelector(".data-template");
+            //løb personlisten igennem og lav en klon
+            retter.forEach(ret => {
+                if (retter.kategori == retFilter || retFilter == "alle") {
+                    let klon = temp.cloneNode(true).content;
+                    //indsæt data i klonen
+                    klon.querySelector("h2").textContent = ret.navn;
+                    klon.querySelector("img").src = ret.billede;
+                    klon.querySelector("img").addEventListener("click", () => {
+                        window.location.href = "single.html?id=" + ret.id;
+                    });
+                    klon.querySelector(".data-kortbeskrivelse").textContent = ret.kortbeskrivelse;
+                    klon.querySelector(".data-pris").textContent = ret.pris;
+                    //placer klon i DOM
+                    dest.appendChild(klon);
+                }
             })
         }
     </script>
-
 </body>
-
 </html>
