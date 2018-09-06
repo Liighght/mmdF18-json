@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="da">
+
 <head>
 
     <meta charset="UTF-8">
@@ -90,14 +91,10 @@
             visRetter();
         }
 
-
-        //eventlisteners for knap + tilhørende anonym funktion
         document.querySelectorAll(".menu-item").forEach(knap => {
             knap.addEventListener("click", filtrering)
         });
 
-
-        //kan ikke gennemskue hvorfor filtreringen ikke virker
         function filtrering() {
             dest.textContent = "";
             retFilter = this.getAttribute("data-kategori");
@@ -109,7 +106,7 @@
                 temp = document.querySelector(".data-template");
             //løb personlisten igennem og lav en klon
             retter.forEach(ret => {
-                if (retter.kategori == retFilter || retFilter == "alle") {
+                if (ret.kategori == retFilter || retFilter == "alle") {
                     let klon = temp.cloneNode(true).content;
                     //indsæt data i klonen
                     klon.querySelector("h2").textContent = ret.navn;
@@ -126,4 +123,5 @@
         }
     </script>
 </body>
+
 </html>
